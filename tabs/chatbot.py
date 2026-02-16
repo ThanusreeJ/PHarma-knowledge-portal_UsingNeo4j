@@ -73,6 +73,25 @@ def show():
     # Chat input
     user_input = st.chat_input("Ask me anything about pharma...")
     
+    # RAG / Knowledge Base Section
+    with st.sidebar:
+        with st.expander("📚 Knowledge Base (RAG)", expanded=False):
+            st.markdown("Upload documents to enhance the chatbot's knowledge.")
+            uploaded_file = st.file_uploader("Upload PDF", type=["pdf"])
+            
+            if uploaded_file and st.button("Process Document"):
+                with st.spinner("Processing document..."):
+                    # Save temporary file because PyPDF might need a file path or file-like object
+                    # But pypdf handles stream bytes too. 
+                    # rag_pipeline.ingest_document handles the stream directly
+                    from utils.rag_pipeline import ingest_document
+                    success, message = ingest_document(uploaded_file, uploaded_file.name)
+                    
+                    if success:
+                        st.success(message)
+                    else:
+                        st.error(f"Error: {message}")
+
     if user_input:
         # Display user message
         with st.chat_message("user", avatar="👤"):
@@ -87,7 +106,26 @@ def show():
         # Get AI response
         with st.chat_message("assistant", avatar="🤖"):
             with st.spinner("Thinking..."):
-                response = get_groq_response(user_input, st.session_state.chat_history)
+                # RAG Retrieval
+                try:
+                    from utils.rag_pipeline import get_rag_context
+                    context = get_rag_context(user_input)
+                    if context:
+                        # Augment prompt with context
+                        augmented_query = f"Context from uploaded documents:\n{context}\n\nUser Question: {user_input}"
+                        response = get_groq_response(augmented_query, st.session_state.chat_history[:-1]) # Don't pass the last user message again as we modified it? 
+                        # Actually get_groq_response appends the user_input again. 
+                        # We should probably modify get_groq_response to accept optional context or handled it better.
+                        # For now, let's just pass the user input, but we need to inject context into system prompt or message.
+                        # HACK: modifying the user input passed to the function to include context
+                        response = get_groq_response(f"Context:\n{context}\n\nQuestion: {user_input}", st.session_state.chat_history[:-1])
+                    else:
+                        response = get_groq_response(user_input, st.session_state.chat_history[:-1])
+                        
+                except Exception as e:
+                    st.warning(f"RAG Retrieval failed (Neo4j might be down), falling back to base model. Error: {e}")
+                    response = get_groq_response(user_input, st.session_state.chat_history)
+
             st.markdown(response)
         
         # Add to history

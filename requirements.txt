@@ -12,3 +12,4 @@ faiss-cpu>=1.7.4
 sentence-transformers>=2.3.1
 pypdf>=4.0.0
 langchain-text-splitters>=0.0.1
+neo4j>=5.18.0
