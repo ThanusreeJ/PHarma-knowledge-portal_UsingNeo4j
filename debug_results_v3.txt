@@ -1,0 +1,40 @@
+Query: List all the secondary objectives and their corresponding endpoints.
+Embedding generated in 0.06s
+Connecting to Neo4j...
+running vector search (top_k=15)...
+Got 7 results.
+
+#1 [Score: 0.5557] [Index: 4]
+Text Preview: ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscin...
+
+#2 [Score: 0.5548] [Index: 5]
+Text Preview: ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscin...
+
+#3 [Score: 0.5476] [Index: 2]
+Text Preview: double-blind period.
+4. Efficacy Endpoints
+4.1 Primary Endpoint
+Change from baseline in CDR-SB score...
+>>> FOUND ENDPOINTS HERE <<<
+
+#4 [Score: 0.5456] [Index: 1]
+Text Preview: 2. Study Objectives
+2.1 Primary Objective
+To evaluate the efficacy of NeuroX-2024 compared to placeb...
+>>> FOUND OBJECTIVES HERE <<<
+>>> FOUND ENDPOINTS HERE <<<
+
+#5 [Score: 0.5293] [Index: 3]
+Text Preview: moderate/severe: Suspend dosing until resolution. - Symptomatic: Suspend dosing. (See Appendix A
+for...
+
+#6 [Score: 0.5274] [Index: 0]
+Text Preview: CLINICAL STUDY PROTOCOL
+Protocol Number: NX-2024-003
+Investigational Product: NeuroX-2024
+Phase: 3
+C...
+>>> FOUND OBJECTIVES HERE <<<
+
+#7 [Score: 0.5076] [Index: 6]
+Text Preview: ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscin...

@@ -211,7 +211,7 @@ If you uploaded the generated sample PDF, here are some questions to test the RA
 3.  **"Summarize the safety and efficacy results."**
     -   *Expected Answer:* The drug is effective in slowing decline and reducing amyloid, with a manageable safety profile (mainly infusion reactions and ARIA-E).
 
-## 10. conceptual Explanation: Why Neo4j?
+## 10. Conceptual Explanation: Why Neo4j?
 
 If you are wondering **"Why is this better than just searching a PDF?"**, here is a simple analogy.
 
@@ -233,4 +233,26 @@ Neo4j keeps the pages **bound together** (using the `NEXT` arrows you saw).
     -   Page 2 might say: *"The goal is to lower amyloid."*
     -   Page 10 might say: *"Amyloid levels dropped by 80%."*
     -   The Graph (and the AI) connects these two pieces of information to give you the answer: *"Yes, because Page 10 confirms the goal set on Page 2."*
+
+## 11. Advanced Stress Testing (for `complex_clinical_protocol.pdf`)
+
+Use these questions to prove that your Neo4j RAG is working better than a simple search.
+
+### 1. The "Cross-Reference" Challenge
+*   **Question:** "The introduction mentions replicating a primary outcome. What is the specific metric and timeframe for this primary endpoint?"
+*   **Expected Answer:** "Change from baseline in CDR-SB score at Week 72." (The intro mentions the goal, but Section 4.1 defines the specific metric).
+
+### 2. The "Conditional Logic" Challenge
+*   **Question:** "A patient shows asymptomatic moderate ARIA-E. What should the investigator do?"
+*   **Expected Answer:** "Suspend dosing until resolution." (Found in Section 5.1).
+
+### 3. The "Synthesis" Challenge
+*   **Question:** "List all the secondary objectives and their corresponding endpoints."
+*   **Expected Answer:**
+    -   *Objectives:* Assess safety/tolerability, measure amyloid reduction, evaluate tau biomarkers.
+    -   *Endpoints:* Change in ADAS-Cog13 and ADCS-ADL-MCI scores at Week 72.
+
+### 4. The "Specific Detail" Challenge
+*   **Question:** "What is the temperature range for drug storage?"
+*   **Expected Answer:** "Between 2 and 8 degrees Celsius." (Buried in the Operational Details section).
 
