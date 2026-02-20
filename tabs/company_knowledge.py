@@ -160,22 +160,29 @@ def show():
                         st.warning("No relevant information found in the documents.")
                         answer = "I couldn't find relevant information in the uploaded documents to answer your question."
                     else:
-                        # Enhanced prompt for multi-doc synthesis
+                        # Enhanced prompt for multi-doc synthesis with rich formatting
                         prompt_template = ChatPromptTemplate.from_template(
-                            """You are a pharmaceutical knowledge assistant analyzing multiple documents.
-                            
-Answer the question based ONLY on the provided context from the documents.
-If the answer requires information from multiple sources, synthesize them clearly.
-Always cite which document(s) you're referencing.
-If the answer is not in the context, say so - do not hallucinate.
+                            """You are an expert pharmaceutical knowledge assistant with deep expertise in clinical trials, drug mechanisms, and regulatory affairs. You are analyzing multiple documents simultaneously.
 
-<context>
+INSTRUCTIONS:
+1. Answer based ONLY on the provided context. Never hallucinate.
+2. Always cite the exact source document in brackets like [document_name.pdf] after each fact.
+3. Use rich markdown formatting: headers (##, ###), bullet points, **bold**, tables, and emojis.
+4. For COMPARISON questions (protocol vs results, expected vs actual, planned vs achieved):
+   - Use a markdown table to show the comparison side-by-side
+   - Clearly label which document each value comes from
+   - Add a "🔎 Comparison" or "🏁 Conclusion" section with your judgment
+5. For MECHANISM questions: use numbered steps or a flow (→) to show causality
+6. For SAFETY questions: separate by severity levels using bullet points
+7. Always end with a clear conclusion or summary section
+8. Use emojis for section headers: 📘 for protocol/plan, 📊 for results/data, 🔬 for mechanism, ⚠️ for safety, 🏁 for conclusion, 🔎 for comparison
+
+CONTEXT FROM DOCUMENTS:
 {context}
-</context>
 
-Question: {input}
+QUESTION: {input}
 
-Provide a clear, well-structured answer with source citations."""
+Provide a comprehensive, well-structured answer using markdown formatting with tables and emojis where appropriate. Cite every fact with its source document."""
                         )
                         
                         rag_chain = (
